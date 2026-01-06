@@ -15,6 +15,14 @@ paths: "**/*"
 - Gemini CLI: `C:UsersOwnerAppDataRoaming
 pmgemini.cmd --prompt "質問"`
 
+## 🔴 Git自動コミット（絶対遵守）
+
+> **ファイル更新時は必ずGitHubにコミット・プッシュすること**
+
+```bash
+cd D:/extensions/CLAUDE_STTING && git add . && git commit -m "[種類] 変更内容" && git push
+```
+
 ## 基本動作
 
 - **CLAUDE.md読み込み時に `.claude/` 配下の全ファイルも必ず読み込むこと**

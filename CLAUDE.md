@@ -27,6 +27,7 @@
 | **UI作成** | egui または gpui-component を最優先 | Electron/Tauriは第二選択 |
 | **コンテキスト管理** | 新鮮なコンテキストを維持 | HANDOFF.md活用、適切な/clear |
 | **AGENTS.md配置** | CLAUDE.mdと共にAGENTS.mdも配置 | 全AIエージェント互換性確保 |
+| **Git自動コミット** | 更新時は必ずGitHubにコミット・プッシュ | 変更後即座に実行 |
 
 ### 必須（Tier 1）
 
