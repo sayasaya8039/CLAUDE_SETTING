@@ -45,6 +45,7 @@
 | **Jina Reader使用** | Web取得は `r.jina.ai` / `s.jina.ai` を優先 |
 | **コンテナ使用** | 危険なタスクは隔離環境で実行（Docker/WSL2/venv） |
 | **Git Worktree** | 並行開発時はgit worktreeを活用 |
+| **言語選択** | CLIツール→Zig、GUI→Rust+gpui、Web→TypeScript |
 
 ### 禁止事項
 
@@ -85,6 +86,7 @@
 | ツール選択 | language-selection.md, pnpm.md, bun.md, biome.md |
 | ルーター | claude-code-router.md |
 | **UI** | **egui-gpui.md** |
+| **Zig** | **zig.md** |
 | **ワークフロー** | **container-workflow.md, git-worktree.md** |
 | **スキル** | **skill-creation.md** |
 | **MCP** | **claude-context-mcp.md** |
@@ -113,6 +115,7 @@
 | **Bun** | 1.3+ |
 | **Biome** | 1.9+ |
 | **Rust** | 1.75+ |
+| **Zig** | 0.15+ |
 | Node.js | 20+（pnpm/Bun非対応時のみ） |
 | Python | 3.12+（uv推奨） |
 
@@ -157,6 +160,7 @@
 
 | 日付 | 内容 |
 |------|------|
+| 2026年1月7日 | **Zig開発環境追加、言語選択ルール追加** |
 | 2026年1月7日 | **gpuiをUI最優先に変更（egui→gpui）** |
 | 2026年1月5日 | **バージョン更新ルール追加（アプリ更新時は必ずバージョンアップ）** |
 | 2026年1月5日 | **Gemini CLI, DeepSeek, Ollama, Continue, Cursorルール追加** |
