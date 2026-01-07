@@ -57,7 +57,7 @@
     },
     {
       "js": [
-        "assets/youtube-content.ts-xtcdxru1.js"
+        "assets/youtube-content.ts-D5hNgT15.js"
       ],
       "matches": [
         "https://www.youtube.com/*"
@@ -89,7 +89,7 @@
         "https://www.youtube.com/*"
       ],
       "resources": [
-        "assets/youtube-content.ts-xtcdxru1.js"
+        "assets/youtube-content.ts-D5hNgT15.js"
       ],
       "use_dynamic_url": false
     }

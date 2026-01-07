@@ -130,29 +130,35 @@ export function ContentInput({
     try {
       const results = await chrome.scripting.executeScript({
         target: { tabId },
-        func: () => {
+        func: async () => {
+          // タイトルを取得
           const titleElement = document.querySelector(
-            "h1.ytd-video-primary-info-renderer, h1.ytd-watch-metadata yt-formatted-string"
+            "h1.ytd-video-primary-info-renderer yt-formatted-string, h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string"
           );
           const title = titleElement?.textContent?.trim() || "";
 
-          const descriptionSelectors = [
-            "ytd-text-inline-expander yt-attributed-string",
-            "#description-inline-expander yt-attributed-string",
-            "ytd-expander#description yt-formatted-string",
-            "#description yt-formatted-string",
-          ];
-
-          let descriptionElement: Element | null = null;
-          for (const selector of descriptionSelectors) {
-            descriptionElement = document.querySelector(selector);
-            if (descriptionElement?.textContent?.trim()) break;
+          // 説明文を展開（「もっと見る」をクリック）
+          const expandButton = document.querySelector(
+            "#expand, tp-yt-paper-button#expand"
+          ) as HTMLElement | null;
+          if (expandButton) {
+            expandButton.click();
+            await new Promise((resolve) => setTimeout(resolve, 300));
           }
 
-          const description = descriptionElement?.textContent?.trim() || "";
+          // 説明文を取得（修正されたセレクタ）
+          const descriptionElement = document.querySelector(
+            "#description-inline-expander, ytd-text-inline-expander, #description-inner"
+          );
+          const description = (descriptionElement as HTMLElement)?.innerText?.trim() || "";
+
           if (!title && !description) return null;
 
-          const content = title ? `【${title}】\n\n${description}` : description;
+          let content = `【${title}】\n\n`;
+          if (description) {
+            content += `■ 説明文\n${description}`;
+          }
+
           return { title, content: content.trim() };
         },
       });

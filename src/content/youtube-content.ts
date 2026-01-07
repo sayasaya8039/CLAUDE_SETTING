@@ -21,15 +21,24 @@ async function extractYouTubeContent(): Promise<{
 } | null> {
   // タイトルを取得
   const titleElement = document.querySelector(
-    "h1.ytd-video-primary-info-renderer yt-formatted-string, h1.ytd-watch-metadata yt-formatted-string"
+    "h1.ytd-video-primary-info-renderer yt-formatted-string, h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string"
   );
   const title = titleElement?.textContent?.trim() || "";
 
-  // 説明文を取得
+  // 説明文を展開（「もっと見る」をクリック）
+  const expandButton = document.querySelector(
+    "#expand, tp-yt-paper-button#expand"
+  ) as HTMLElement | null;
+  if (expandButton) {
+    expandButton.click();
+    await new Promise((resolve) => setTimeout(resolve, 300));
+  }
+
+  // 説明文を取得（修正されたセレクタ）
   const descriptionElement = document.querySelector(
-    "#description-inline-expander yt-attributed-string, ytd-text-inline-expander yt-attributed-string, #description yt-formatted-string"
+    "#description-inline-expander, ytd-text-inline-expander, #description-inner"
   );
-  const description = descriptionElement?.textContent?.trim() || "";
+  const description = (descriptionElement as HTMLElement)?.innerText?.trim() || "";
 
   // 字幕を取得（可能な場合）
   const transcript = await extractTranscript();
