@@ -38,8 +38,15 @@ export function ContentInput({
           tab.id,
           { type: "GET_NOTE_CONTENT" },
           (response) => {
+            if (chrome.runtime.lastError) {
+              // content scriptが読み込まれていない場合、直接スクリプトを実行
+              injectAndGetNoteContent(tab.id!);
+              return;
+            }
             if (response?.content) {
               setContent(response.content);
+            } else {
+              alert("記事の本文が見つかりませんでした。\nnote.comの記事ページを開いているか確認してください。");
             }
           }
         );
@@ -47,6 +54,50 @@ export function ContentInput({
         alert("note.comのページを開いてください");
       }
     });
+  };
+
+  const injectAndGetNoteContent = async (tabId: number) => {
+    try {
+      const results = await chrome.scripting.executeScript({
+        target: { tabId },
+        func: () => {
+          const titleElement = document.querySelector(
+            "h1.o-noteContentHeader__title, h1[class*='noteContentHeader__title'], .p-article__title"
+          );
+          const title = titleElement?.textContent?.trim() || "";
+
+          const contentSelectors = [
+            ".note-common-styles__textnote-body",
+            ".p-article__content",
+            '[class*="noteContentBody"]',
+            ".note-body",
+            "article .note-common-styles__textnote-body",
+          ];
+
+          let contentElement: Element | null = null;
+          for (const selector of contentSelectors) {
+            contentElement = document.querySelector(selector);
+            if (contentElement) break;
+          }
+
+          if (!contentElement) return null;
+
+          return {
+            title,
+            content: (contentElement as HTMLElement).innerText?.trim() || "",
+          };
+        },
+      });
+
+      const result = results[0]?.result;
+      if (result?.content) {
+        setContent(result.content);
+      } else {
+        alert("記事の本文が見つかりませんでした。\nnote.comの記事ページを開いているか確認してください。");
+      }
+    } catch {
+      alert("コンテンツの取得に失敗しました。ページを再読み込みしてお試しください。");
+    }
   };
 
   const handleGetFromYouTube = async () => {
@@ -58,8 +109,14 @@ export function ContentInput({
           tab.id,
           { type: "GET_YOUTUBE_CONTENT" },
           (response) => {
+            if (chrome.runtime.lastError) {
+              injectAndGetYouTubeContent(tab.id!);
+              return;
+            }
             if (response?.content) {
               setContent(response.content);
+            } else {
+              alert("動画の説明文が見つかりませんでした。\nYouTubeの動画ページを開いているか確認してください。");
             }
           }
         );
@@ -67,6 +124,48 @@ export function ContentInput({
         alert("YouTubeのページを開いてください");
       }
     });
+  };
+
+  const injectAndGetYouTubeContent = async (tabId: number) => {
+    try {
+      const results = await chrome.scripting.executeScript({
+        target: { tabId },
+        func: () => {
+          const titleElement = document.querySelector(
+            "h1.ytd-video-primary-info-renderer, h1.ytd-watch-metadata yt-formatted-string"
+          );
+          const title = titleElement?.textContent?.trim() || "";
+
+          const descriptionSelectors = [
+            "ytd-text-inline-expander yt-attributed-string",
+            "#description-inline-expander yt-attributed-string",
+            "ytd-expander#description yt-formatted-string",
+            "#description yt-formatted-string",
+          ];
+
+          let descriptionElement: Element | null = null;
+          for (const selector of descriptionSelectors) {
+            descriptionElement = document.querySelector(selector);
+            if (descriptionElement?.textContent?.trim()) break;
+          }
+
+          const description = descriptionElement?.textContent?.trim() || "";
+          if (!title && !description) return null;
+
+          const content = title ? `【${title}】\n\n${description}` : description;
+          return { title, content: content.trim() };
+        },
+      });
+
+      const result = results[0]?.result;
+      if (result?.content) {
+        setContent(result.content);
+      } else {
+        alert("動画の説明文が見つかりませんでした。\nYouTubeの動画ページを開いているか確認してください。");
+      }
+    } catch {
+      alert("コンテンツの取得に失敗しました。ページを再読み込みしてお試しください。");
+    }
   };
 
   const handleSubmit = (useLLM: boolean) => {
