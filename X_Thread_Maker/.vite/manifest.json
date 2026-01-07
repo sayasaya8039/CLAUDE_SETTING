@@ -1,0 +1,41 @@
+{
+  "../../@crx/manifest": {
+    "file": "assets/crx-manifest.js-BHHyixQO.js",
+    "name": "crx-manifest.js",
+    "src": "../../@crx/manifest",
+    "isEntry": true
+  },
+  "index.html": {
+    "file": "assets/popup-CoMBdX_E.js",
+    "name": "popup",
+    "src": "index.html",
+    "isEntry": true,
+    "css": [
+      "assets/popup-C8pK4hlt.css"
+    ]
+  },
+  "src/background/index.ts": {
+    "file": "assets/index.ts-BD6RMEtC.js",
+    "name": "index.ts",
+    "src": "src/background/index.ts",
+    "isEntry": true
+  },
+  "src/content/note-content.ts": {
+    "file": "assets/note-content.ts-BuOuM83b.js",
+    "name": "note-content.ts",
+    "src": "src/content/note-content.ts",
+    "isEntry": true
+  },
+  "src/content/x-content.ts": {
+    "file": "assets/x-content.ts-CVPzlegR.js",
+    "name": "x-content.ts",
+    "src": "src/content/x-content.ts",
+    "isEntry": true
+  },
+  "src/content/youtube-content.ts": {
+    "file": "assets/youtube-content.ts-xtcdxru1.js",
+    "name": "youtube-content.ts",
+    "src": "src/content/youtube-content.ts",
+    "isEntry": true
+  }
+}

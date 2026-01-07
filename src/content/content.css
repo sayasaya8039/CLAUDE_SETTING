@@ -1,0 +1,24 @@
+/* X Thread Maker - Content Script Styles */
+
+#x-thread-maker-notification {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#x-thread-maker-notification button:hover {
+  opacity: 0.9;
+}
+
+#x-thread-maker-notification button:active {
+  transform: scale(0.98);
+}

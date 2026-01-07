@@ -1,0 +1,66 @@
+{
+  "manifest_version": 3,
+  "name": "X Thread Maker",
+  "version": "1.0.0",
+  "description": "X (Twitter) スレッド作成アシスタント - note記事やYouTube動画の長文を分割してスレッド投稿を支援",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://x.com/*",
+    "https://twitter.com/*",
+    "https://note.com/*",
+    "https://www.youtube.com/*"
+  ],
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "src/background/index.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://x.com/*",
+        "https://twitter.com/*"
+      ],
+      "js": [
+        "src/content/x-content.ts"
+      ],
+      "css": [
+        "content/content.css"
+      ]
+    },
+    {
+      "matches": [
+        "https://note.com/*"
+      ],
+      "js": [
+        "src/content/note-content.ts"
+      ]
+    },
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "src/content/youtube-content.ts"
+      ]
+    }
+  ]
+}
